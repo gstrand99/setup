@@ -1,0 +1,43 @@
+---
+- name: Check if oh-my-zsh is already installed
+  stat:
+    path: "{{ item }}"
+  register: oh_my_zsh_check
+  loop:
+    - "$HOME/.oh-my-zsh"
+    - "$HOME/.config/.oh-my-zsh"
+  become: true
+  become_user: "{{ username }}"
+
+- name: Git clone oh-my-zsh if not present
+  command: wget "{{ omz_git_script }}"
+  args:
+    chdir: "$HOME/.config"
+  when: oh_my_zsh_check.results | map(attribute='stat.exists') | select('equalto', false) | list | length == oh_my_zsh_check.results | length
+  become: true
+  become_user: "{{ username }}"
+
+- name: Run the oh-my-zsh install script with custom ZSH path
+  shell:
+    cmd: "ZSH=$HOME/.config/.oh-my-zsh sh install.sh"
+    chdir: "$HOME/.config"
+  when: oh_my_zsh_check.results | map(attribute='stat.exists') | select('equalto', false) | list | length == oh_my_zsh_check.results | length
+  become: true
+  become_user: "{{ username }}"
+  environment:
+    ZSH: "$HOME/.config/.oh-my-zsh"
+
+- name: Check for Powerlevel10k
+  stat: path=/$HOME/.config/.oh-my-zsh/custom/themes/powerlevel10k
+  register: powerlevel10k
+  become: true
+  become_user: "{{ username }}"
+
+- name: Clone and install Powerlevel10k
+  git:
+    repo: "{{ powerlevel10k_git_repo }}"
+    dest: /$HOME/.config/.oh-my-zsh/custom/themes/powerlevel10k
+    depth: 1
+  when: not powerlevel10k.stat.exists
+  become: true
+  become_user: "{{ username }}"

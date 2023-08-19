@@ -1,0 +1,8 @@
+---
+omz_git_script: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+omz_git_repo: https://github.com/ohmyzsh/ohmyzsh.git
+omz_git_checkout: master
+omz_dir: ~/.config/.oh-my-zsh
+omz_themes_dir: ~/.config/.oh-my-zsh/custom/themes
+
+powerlevel10k_git_repo: https://github.com/romkatv/powerlevel10k.git

@@ -1,0 +1,25 @@
+---
+- name: Clone the Neovim repository
+  git:
+    repo: "{{ neovim_git_repo }}"
+    dest: "{{ neovim_build_dir }}"
+    version: "{{ neovim_git_checkout }}"
+  register: git_clone_result
+
+- name: Build Neovim
+  command: sudo make "CMAKE_BUILD_TYPE={{ neovim_build_type }}"
+  args:
+    chdir: "{{ neovim_build_dir }}"
+  when: git_clone_result.changed
+
+- name: Create DEB package
+  command: cpack -G DEB
+  args:
+    chdir: "{{ neovim_build_dir }}/build"
+  when: git_clone_result.changed
+  register: cpack_result
+
+- name: Install DEB package
+  apt:
+    deb: "{{ neovim_build_dir }}/build/{{ neovim_deb_file }}"
+  when: cpack_result.changed

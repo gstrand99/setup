@@ -1,0 +1,6 @@
+---
+neovim_git_repo: https://github.com/neovim/neovim
+neovim_git_checkout: stable
+neovim_build_dir: /tmp/neovim
+neovim_build_type: RelWithDebInfo
+neovim_deb_file: nvim-linux64.deb

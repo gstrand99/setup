@@ -1,0 +1,11 @@
+---
+prerequisite_packages:
+  - ninja-build
+  - gettext
+  - cmake
+  - unzip
+  - curl
+  - git
+  - vim
+  - wget
+  - zsh

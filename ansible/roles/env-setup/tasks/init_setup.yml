@@ -1,0 +1,34 @@
+---
+- name: update package list
+  become: True
+  package:
+    update_cache: yes
+
+- name: upgrade all packages
+  become: True
+  package:
+    name: "*"
+    state: latest
+
+- name: Install packages
+  become: True
+  apt:
+    name: "{{ prerequisite_packages }}"
+    state: present
+
+- name: Set ZSH as the default shell
+  become: True
+  become_user: root
+  user:
+    name: "{{ username }}"
+    shell: /bin/zsh
+
+- name: Check for .config folder
+  become_user: "{{ username }}"
+  stat: path=~/.config
+  register: alreadyhaveconfig
+
+- name: Create .config folder
+  become_user: "{{ username }}"
+  command: mkdir ~/.config
+  when: not alreadyhaveconfig.stat.exists
