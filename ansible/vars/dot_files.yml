@@ -1,2 +1,6 @@
 ---
 dotfiles_git_repo: gstrand99/.dotfiles
+dotfiles_home_dir: $HOME/test
+home_dotfiles_list:
+  - .zshrc
+  - .p10k.zsh

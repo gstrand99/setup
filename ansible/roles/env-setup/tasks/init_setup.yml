@@ -32,3 +32,6 @@
   become_user: "{{ username }}"
   command: mkdir ~/.config
   when: not alreadyhaveconfig.stat.exists
+
+- name: Update pinvim
+  shell: pip3 install --upgrade pynvim

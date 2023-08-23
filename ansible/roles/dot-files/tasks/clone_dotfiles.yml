@@ -1,4 +1,26 @@
 ---
+- name: Does dotfiles repo exist?
+  stat: "path={{ dotfiles_home_dir }}/.dotfiles"
+  register: dotfiles_dir
+
 - name: Clone dotfiles
   git:
     repo: "git@github.com:{{ dotfiles_git_repo }}"
+    dest: "{{ dotfiles_home_dir }}/.dotfiles"
+    accept_hostkey: yes
+  when: not dotfiles_dir.stat.exists
+
+- name: Pull most recent dotfiles
+  command: git pull
+  args:
+    chdir: "{{ dotfiles_home_dir }}/.dotfiles"
+
+- name: Move dotfiles to home dir
+  copy:
+    src: "{{ dotfiles_home_dir }}/.dotfiles/{{ item }}"
+    dest: "{{ dotfiles_home_dir }}"
+    remote_src: yes
+  with_items: "{{ home_dotfiles_list }}"
+
+- name: Move .config files
+  command: cp -r ~/.dotfiles/config/. ~/.config

@@ -1,4 +1,2 @@
 ---
 - include_tasks: init_setup.yml
-- include_tasks: oh-my-zsh-install.yml
-# - include_tasks: neovim_install.yml

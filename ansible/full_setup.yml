@@ -1,13 +1,15 @@
 ---
-- hosts: local
+- hosts: localhost
   vars_files:
     - vars/user_env.yml
     - vars/neovim.yml
     - vars/prerequisite_packages.yml
     - vars/oh-my-zsh.yml
+    - vars/dot_files.yml
 
   roles:
-    - env-setup
-    - dot-files
+    # - env-setup
+    - terminal-setup
+    # - dot-files
 
   user: gstrand99

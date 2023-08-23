@@ -1,0 +1,10 @@
+---
+- name: Check if neovim config exists
+  stat: path=~/.config/nvim
+  register: neovim_config
+
+- name: Install neovim config
+  git:
+    repo: "{{ neovim_config_repo }}"
+    dest: "~/.config/nvim"
+  when: not neovim_config.stat.exists

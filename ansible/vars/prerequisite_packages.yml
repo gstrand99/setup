@@ -9,3 +9,6 @@ prerequisite_packages:
   - vim
   - wget
   - zsh
+  - ripgrep
+  - fd-find
+  - python3-neovim

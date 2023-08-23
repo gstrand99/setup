@@ -1,2 +1,2 @@
 ---
-- include_tasks: clone_dotfiles
+- include_tasks: clone_dotfiles.yml
